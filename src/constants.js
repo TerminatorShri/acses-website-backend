@@ -1,1 +1,1 @@
-export const DB_NAME = "wceacses";
+export const DB_NAME = "acseswce";
