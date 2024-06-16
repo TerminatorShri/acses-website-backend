@@ -1,9 +1,11 @@
 import express from "express";
 import cors from "cors";
-import teamRouter from "./routes/team.routes.js";
-import mentorRouter from "./routes/mentor.routes.js";
-import eventRouter from "./routes/events.routes.js";
-import guideRouter from "./routes/guides.routes.js";
+import {
+    teamRouter,
+    eventRouter,
+    guideRouter,
+    loginRouter,
+} from "./routers.js";
 
 const app = express();
 app.use(
@@ -17,9 +19,9 @@ app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 
-app.use("/api/v1", teamRouter);
-app.use("/api/v1", mentorRouter);
-app.use("/api/v1", eventRouter);
-app.use("/api/v1", guideRouter);
+app.use("/api/v1/teams", teamRouter);
+app.use("/api/v1/events", eventRouter);
+app.use("/api/v1/guides", guideRouter);
+app.use("/api/v1", loginRouter);
 
 export default app;
