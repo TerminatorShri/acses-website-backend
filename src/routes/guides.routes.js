@@ -1,8 +1,13 @@
 import express from "express";
-import getAllGuides from "../controllers/guides.controller.js";
+import guideController from "../controllers/guides.controller.js";
+
+const { getAllGuides } = guideController;
 
 const router = express.Router();
 
-router.get("/guides", getAllGuides);
+router.get("/guides", (req, res) => {
+    console.log("GET request received for /guides");
+    getAllGuides(req, res);
+});
 
 export default router;

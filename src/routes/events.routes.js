@@ -1,8 +1,13 @@
 import express from "express";
-import getEventsByType from "../controllers/events.controller.js";
+import eventController from "../controllers/events.controller.js"; 
+
+const { getEventsByType } = eventController; 
 
 const router = express.Router();
 
-router.get("/:eventType", getEventsByType);
+router.get("/:eventType", (req, res) => {
+    console.log("GET request received for /:eventType");
+    getEventsByType(req, res);
+});
 
 export default router;

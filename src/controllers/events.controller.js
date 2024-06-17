@@ -20,4 +20,4 @@ export const getEventsByType = async (req, res) => {
     }
 };
 
-export default getEventsByType;
+export default { getEventsByType };

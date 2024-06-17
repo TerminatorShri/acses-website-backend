@@ -17,4 +17,4 @@ const getAllGuides = async (req, res) => {
     }
 };
 
-export default getAllGuides;
+export default { getAllGuides };
