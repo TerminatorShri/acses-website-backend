@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const teamSchema = new mongoose.Schema(
     {
         indx: {
-            type: Number,
+            type: String,
             required: true,
             unique: true,
         },

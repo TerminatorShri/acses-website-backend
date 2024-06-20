@@ -11,6 +11,10 @@ const eventSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        description: {
+            type: String,
+            required: true,
+        },
         photo1: {
             type: String,
             required: true,
@@ -31,6 +35,10 @@ const eventSchema = new mongoose.Schema(
             type: String,
         },
         eventType: {
+            type: String,
+            required: true,
+        },
+        eventStatus: {
             type: String,
             required: true,
         },

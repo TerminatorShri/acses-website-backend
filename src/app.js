@@ -4,7 +4,7 @@ import {
     teamRouter,
     eventRouter,
     guideRouter,
-    loginRouter,
+    adminRouter,
 } from "./routers.js";
 
 const app = express();
@@ -22,6 +22,6 @@ app.use(express.static("public"));
 app.use("/api/v1/teams", teamRouter);
 app.use("/api/v1/events", eventRouter);
 app.use("/api/v1/guides", guideRouter);
-app.use("/api/v1", loginRouter);
+app.use("/api/v1/admin", adminRouter);
 
 export default app;
