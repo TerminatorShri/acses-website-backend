@@ -6,7 +6,7 @@ const { getEventsByType, getUpcomingEvents, getMostRecentEvent } =
 
 const router = express.Router();
 
-router.get("/:eventType", (req, res) => {
+router.get("eventInfo/:eventType", (req, res) => {
     const eventType = req.params.eventType;
     console.log(`GET request received for /events/${eventType}`);
     getEventsByType(req, res);

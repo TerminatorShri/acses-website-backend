@@ -266,6 +266,30 @@ const convertToPastEvents = async (req, res) => {
     }
 };
 
+const deleteEventByIndx = async (req, res) => {
+    const { indx } = req.params;
+
+    try {
+        const deletedEvent = await Event.findOneAndDelete({ indx });
+
+        if (!deletedEvent) {
+            return res
+                .status(404)
+                .json(new ApiError(404, `Event with indx ${indx} not found`));
+        }
+
+        console.log(`Deleted event with indx ${indx}`);
+        res.status(200).json(
+            new ApiResponse(200, null, `Deleted event with indx ${indx}`)
+        );
+    } catch (error) {
+        console.error(`Error deleting event with indx ${indx}:`, error);
+        res.status(500).json(
+            new ApiError(500, `Error deleting event with indx ${indx}`, [error])
+        );
+    }
+};
+
 export default {
     adminLogin,
     promoteToMentor,
@@ -273,4 +297,5 @@ export default {
     deleteTeamsByBoardType,
     addNewEvent,
     convertToPastEvents,
+    deleteEventByIndx,
 };

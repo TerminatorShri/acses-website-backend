@@ -53,8 +53,16 @@ const getUpcomingEvents = async (req, res) => {
 const getMostRecentEvent = async (req, res) => {
     try {
         const mostRecentEvent = await Event.findOne({})
-            .sort({ startDate: -1 })
-            .limit(1);
+            .sort({ createdAt: -1 })
+            .lean();
+
+        if (!mostRecentEvent) {
+            console.log("No recent event found");
+            return res.status(404).json({
+                success: false,
+                message: "No recent event found",
+            });
+        }
 
         console.log(
             `Fetched most recent event: ${JSON.stringify(mostRecentEvent, null, 2)}`

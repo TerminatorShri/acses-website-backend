@@ -10,6 +10,7 @@ const {
     deleteAssistantTeam,
     addNewEvent,
     convertToPastEvents,
+    deleteEventByIndx,
 } = adminController;
 
 const router = express.Router();
@@ -68,5 +69,9 @@ router.patch(
         convertToPastEvents(req, res);
     }
 );
+router.delete("/events/:indx", authenticateAdmin, (req, res) => {
+    console.log("DELETE request received for /admin/events");
+    deleteEventByIndx(req, res);
+});
 
 export default router;
