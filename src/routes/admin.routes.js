@@ -6,6 +6,7 @@ import { upload } from "../middlewares/multer.middleware.js";
 const {
     adminLogin,
     promoteToMentor,
+    addTeamsByBoardType,
     deleteAssistantTeam,
     addNewEvent,
     convertToPastEvents,
@@ -27,12 +28,17 @@ router.patch(
         promoteToMentor(req, res);
     }
 );
-router.post("/teams/:boardType", authenticateAdmin, (req, res) => {
-    console.log(
-        `POST request received for /admin/teams/${req.params.boardType}`
-    );
-    // Add Controller
-});
+router.post(
+    "/teams/:boardType",
+    authenticateAdmin,
+    upload.single("boardInfo"),
+    (req, res) => {
+        console.log(
+            `POST request received for /admin/teams/${req.params.boardType}`
+        );
+        addTeamsByBoardType(req, res);
+    }
+);
 router.delete("/teams/:boardType", authenticateAdmin, (req, res) => {
     console.log(
         `DELETE request received for /admin/teams/${req.params.boardType}`

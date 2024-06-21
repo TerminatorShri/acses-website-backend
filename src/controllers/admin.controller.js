@@ -68,7 +68,6 @@ const promoteToMentor = async (req, res) => {
             )
         );
 
-        // Delete file after processing
         fs.unlinkSync(filePath);
         console.log(`Deleted file: ${filePath}`);
     } catch (error) {
@@ -81,17 +80,78 @@ const promoteToMentor = async (req, res) => {
     }
 };
 
+const addTeamsByBoardType = async (req, res) => {
+    const boardType = req.params.boardType;
+    console.log(`Received request to add team for boardType: ${boardType}`);
+
+    try {
+        if (boardType === "mentor") {
+            console.log("Insertion not allowed for boardType: mentor");
+            return res
+                .status(403)
+                .json(
+                    new ApiError(
+                        403,
+                        "Insertion not allowed for boardType: mentor"
+                    )
+                );
+        }
+
+        const filePath = req.file.path;
+        console.log(`Processing file: ${filePath}`);
+
+        const workbook = xlsx.readFile(filePath);
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const data = xlsx.utils.sheet_to_json(worksheet);
+
+        console.log(`Total rows to process: ${data.length}`);
+
+        const bulkOps = data.map((row) => ({
+            insertOne: {
+                document: {
+                    ...row,
+                    boardType,
+                    experience: "",
+                },
+            },
+        }));
+
+        const bulkResult = await Team.bulkWrite(bulkOps);
+        console.log(`Bulk write result: ${JSON.stringify(bulkResult)}`);
+
+        res.status(200).json(
+            new ApiResponse(
+                200,
+                null,
+                `Successfully added ${bulkResult.insertedCount} team members for boardType: ${boardType}.`
+            )
+        );
+
+        fs.unlinkSync(filePath);
+        console.log(`Deleted file: ${filePath}`);
+    } catch (error) {
+        console.error("Error adding team members:", error);
+        res.status(500).json(
+            new ApiError(500, "Error adding team members", [error.message])
+        );
+    }
+};
+
 const deleteTeamsByBoardType = async (req, res) => {
     const boardType = req.params.boardType;
     console.log(`Received request to delete teams for boardType: ${boardType}`);
 
     try {
         if (boardType === "main") {
-            console.log(`Deletion not allowed for boardType: main`);
+            console.log("Deletion not allowed for boardType: main");
             return res
                 .status(403)
                 .json(
-                    new ApiError(403, `Deletion not allowed for main boardType`)
+                    new ApiError(
+                        403,
+                        "Deletion not allowed for boardType: main"
+                    )
                 );
         }
 
@@ -209,6 +269,7 @@ const convertToPastEvents = async (req, res) => {
 export default {
     adminLogin,
     promoteToMentor,
+    addTeamsByBoardType,
     deleteTeamsByBoardType,
     addNewEvent,
     convertToPastEvents,

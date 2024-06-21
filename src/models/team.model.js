@@ -17,7 +17,6 @@ const teamSchema = new mongoose.Schema(
         },
         experience: {
             type: String,
-            required: true,
         },
         photo: {
             type: String,
