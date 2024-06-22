@@ -3,7 +3,7 @@ import cors from "cors";
 import {
     teamRouter,
     eventRouter,
-    guideRouter,
+    homeRouter,
     adminRouter,
 } from "./routers.js";
 
@@ -21,7 +21,7 @@ app.use(express.static("public"));
 
 app.use("/api/v1/teams", teamRouter);
 app.use("/api/v1/events", eventRouter);
-app.use("/api/v1/guides", guideRouter);
+app.use("/api/v1/home", homeRouter);
 app.use("/api/v1/admin", adminRouter);
 
 export default app;
